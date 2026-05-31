@@ -5,7 +5,7 @@ from models.post import posts
 from database import database
 
 
-router = APIRouter(prefix="/posts")
+router = APIRouter(prefix="/posts", dependencies=[Depends(login_required)])
 
 service = PostService()
 
