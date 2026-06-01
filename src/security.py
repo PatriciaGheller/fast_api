@@ -6,10 +6,9 @@ import jwt
 from fastapi import Depends, HTTPException, Request, status
 from fastapi.security import HTTPBearer
 from pydantic import BaseModel
-from security import JWTBearer, sign_jwt, login_required
 
 
-SECRET = "my-secret"
+SECRET = "minha_chave_super_secreta_de_32_caracteres"
 ALGORITHM = "HS256"
 
 
@@ -27,11 +26,11 @@ class JWTToken(BaseModel):
     access_token: AccessToken
     
     
-def sign_jwt(user_id: str) -> JWTToken:
+def sign_jwt(user_id: int) -> JWTToken:
     now = time.time()
     payload = {
         "iss": "curso-fastapi.com.br",
-        "sub": user_id,
+        "sub": str(user_id),
         "aud": "curso-fastapi",
         "exp": now + (60 * 30), # 30 minutos
         "iat": now,
