@@ -8,4 +8,4 @@ class Settings(BaseSettings):
     environment: str = "production"
     
     
-sttings = Settings()
+settings = Settings()

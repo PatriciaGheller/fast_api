@@ -1,24 +1,10 @@
-from contextlib import asynccontextmanager
+from fastapi import FastAPI, Request 
 from fastapi.middleware.cors import CORSMiddleware
-
-
-from fastapi import FastAPI, Request        
 from fastapi.responses import JSONResponse
 
 from src.controllers import auth, post
-from src.database import database, metadata, engine
 from src.exceptions import NotFoundPostError
 
-
-
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    await database.connect()
-    metadata.create_all(engine)
-    yield
-    await database.disconnect()
-    
-    
 tags_metadata = [
     {
         "name": "auth",
@@ -59,7 +45,6 @@ app = FastAPI(
     servers=servers,
     redoc_url=None, 
     # openapi_url= None, # desabilita a documentação automática
-    lifespan=lifespan,
 )
 
 app.add_middleware(
