@@ -59,8 +59,19 @@ app = FastAPI(
     # openapi_url= None, # desabilita a documentação automática
     lifespan=lifespan,
 )
+
+@app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
 app.include_router(auth.router, tags=["auth"])
 app.include_router(post.router, tags=["Posts"])
+
 
 @app.exception_handler(NotFoundPostError)
 async def not_found_post_exception_handler(request: Request, exc: NotFoundPostError):
